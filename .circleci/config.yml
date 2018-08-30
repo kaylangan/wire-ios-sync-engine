@@ -9,13 +9,17 @@ defaults: &defaults
 
 # Gems
 gems_cache: &gems_cache
-  key: v4-{{ checksum "Gemfile.lock" }}
+  keys: 
+    - v1-gems-{{ checksum "Gemfile.lock" }}
+    - v1-gems-
   paths: ~/.gem
 
 # Carthage
 carthage_cache: &carthage_cache
-  key: v2-{{ checksum "Cartfile.resolved" }}
-  paths: Carthage/Build
+  keys: 
+    - v1-carthage-{{ checksum "Cartfile.resolved" }}
+    - v1-carthage-
+  paths: Carthage
 
 # -------------GEMS----------------
 
