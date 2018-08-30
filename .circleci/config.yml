@@ -39,8 +39,14 @@ jobs:
           curl -O "${DEPENDENCIES_BASE_URL}/Gemfile"
           curl -O "${DEPENDENCIES_BASE_URL}/Gemfile.lock"
           curl -O "${DEPENDENCIES_BASE_URL}/.ruby-version"
-    - restore_cache: *gems_cache
-    - restore_cache: *carthage_cache
+    - restore_cache: 
+        keys: 
+          - v1-carthage-{{ checksum "Cartfile.resolved" }}
+          - v1-carthage-
+    - restore_cache: 
+        keys: 
+          - v1-gems-{{ checksum "Gemfile.lock" }}
+          - v1-gems-
     - run: 
         name: "Install gems"
         command: bundle install --path ~/.gem
