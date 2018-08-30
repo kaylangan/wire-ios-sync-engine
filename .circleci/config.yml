@@ -5,24 +5,6 @@ defaults: &defaults
     xcode: "9.4.1"
   shell: /bin/bash --login -eo pipefail
 
-# ----------------CACHING----------------
-
-# Gems
-gems_cache: &gems_cache
-  keys: 
-    - v1-gems-{{ checksum "Gemfile.lock" }}
-    - v1-gems-
-  paths: ~/.gem
-
-# Carthage
-carthage_cache: &carthage_cache
-  keys: 
-    - v1-carthage-{{ checksum "Cartfile.resolved" }}
-    - v1-carthage-
-  paths: Carthage
-
-# -------------GEMS----------------
-
 version: 2
 jobs:
       
@@ -50,11 +32,15 @@ jobs:
     - run: 
         name: "Install gems"
         command: bundle install --path ~/.gem
-    - save_cache: *gems_cache
+    - save_cache: 
+        key: - v1-gems-{{ checksum "Gemfile.lock" }}
+        paths: ~/.gem
     - run: 
         name: "Build"
         command: bundle exec fastlane build
-    - save_cache: *carthage_cache
+    - save_cache: 
+        key: - v1-carthage-{{ checksum "Cartfile.resolved" }}
+        paths: Carthage
     - run: 
         name: "Test"
         command: bundle exec fastlane test
