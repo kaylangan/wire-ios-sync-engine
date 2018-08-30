@@ -40,9 +40,11 @@ jobs:
     - run: 
         name: "Install gems"
         command: bundle install --path ~/.gem
+    - save_cache: *gems_cache
     - run: 
         name: "Build"
         command: bundle exec fastlane build
+    - save_cache: *carthage_cache
     - run: 
         name: "Test"
         command: bundle exec fastlane test
